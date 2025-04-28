@@ -1,9 +1,7 @@
+import AuthForm from '@/components/AuthForm'
+
 function RegisterPage() {
-  return (
-    <div className="flex h-screen items-center justify-center">
-      <h1 className="text-center">Register</h1>
-    </div>
-  )
+  return <AuthForm isRegister={true} />
 }
 
 export default RegisterPage
