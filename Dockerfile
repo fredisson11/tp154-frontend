@@ -3,15 +3,9 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-COPY package*.json ./
-COPY tsconfig.json ./
-COPY next.config.ts ./
-COPY postcss.config.mjs ./
-COPY eslint.config.mjs ./
+COPY . .
 
 RUN npm install
-
-COPY ./src ./src
 
 RUN npm run build
 
