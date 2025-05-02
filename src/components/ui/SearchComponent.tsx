@@ -5,10 +5,23 @@ import Image from 'next/image'
 import PrimaryButton from '@/components/ui/MainButton'
 import classNames from 'classnames'
 
-const SearchComponent = () => {
-  const options = useMemo(
+type Option = {
+  label: string
+  options: string[]
+}
+
+type SearchComponentProps = {
+  color?: string
+}
+
+const SearchComponent = ({ color = 'white' }: SearchComponentProps) => {
+  const options: Option[] = useMemo(
     () => [
-      { label: 'Предмет', options: ['Німецька мова', 'Інший предмет'] },
+      {
+        label: 'Предмет',
+        options: ['Німецька мова', 'Інший предмет'],
+        optionStyles: { fontSize: '1.2rem' },
+      },
       { label: 'Класи', options: ['Для дорослих', 'Для дітей'] },
       { label: 'Місто', options: ['Київ', 'Львів'] },
     ],
@@ -53,7 +66,12 @@ const SearchComponent = () => {
   }, [options])
 
   return (
-    <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+    <div
+      className={classNames(
+        'container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5',
+        `bg-${color}`
+      )}
+    >
       {options.map(({ label, options }, index) => (
         <div
           key={index}
@@ -62,10 +80,17 @@ const SearchComponent = () => {
             dropdownRefs.current[index] = el
           }}
         >
-          <label className="absolute top-0 left-2 -translate-y-1/2 text-sm font-medium bg-background px-1">
+          {/* label */}
+          <label
+            className={classNames(
+              'absolute top-0 left-2 -translate-y-1/2 text-sm font-medium px-1',
+              `bg-${color}`
+            )}
+          >
             {label}
           </label>
 
+          {/* dropdown */}
           <button
             className={classNames(
               'border-2 rounded-xl px-6 py-5 w-full appearance-none cursor-pointer',
@@ -82,12 +107,16 @@ const SearchComponent = () => {
               alt="arrow"
               width={16}
               height={16}
-              className={classNames('transition-transform duration-200', {
-                'rotate-180': isOpen[index],
-              })}
+              className={classNames(
+                'transition-transform duration-200 w-4 h-4',
+                {
+                  'rotate-180': isOpen[index],
+                }
+              )}
             />
           </button>
 
+          {/* dropdown options */}
           <ul
             className={classNames(
               'absolute top-full left-0 right-0 bg-background border-2 border-t-0 rounded-b-xl z-10 overflow-hidden transition-all duration-300',
@@ -100,7 +129,10 @@ const SearchComponent = () => {
             {options.map((option) => (
               <li
                 key={option}
-                className="px-6 py-2 cursor-pointer hover:bg-slate-200"
+                className={classNames(
+                  'px-6 py-2 cursor-pointer hover:bg-gray-200',
+                  `bg-${color}`
+                )}
                 onClick={() => handleSelect(index, option)}
               >
                 {option}

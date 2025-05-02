@@ -1,8 +1,8 @@
-import Accordion from '@/components/Accordion'
+import Accordion from '@/components/ui/Accordion'
 import BackgroundMain from '@/components/BackgroundMain'
-import Card from '@/components/Card'
+import Card from '@/components/ui/Card'
 import Carousel from '@/components/Carousel'
-import SearchComponent from '@/components/SearchComponent'
+import SearchComponent from '@/components/ui/SearchComponent'
 import MainButton from '@/components/ui/MainButton'
 import Image from 'next/image'
 
@@ -31,7 +31,10 @@ export default function Home() {
             </div>
 
             {/* button */}
-            <MainButton className="w-full md:w-[45%] mt-[8%]" href="/register">
+            <MainButton
+              className="w-full md:w-[45%] mt-[8%]"
+              href="/register?initialRole=student"
+            >
               Почати навчання
             </MainButton>
           </div>
@@ -77,7 +80,7 @@ export default function Home() {
           <h1>Знайдіть свого репетитора просто зараз!</h1>
 
           {/* search */}
-          <SearchComponent />
+          <SearchComponent color="background" />
         </section>
 
         {/* register as tutor */}
@@ -89,21 +92,25 @@ export default function Home() {
                 src="/create-profile-pic.jpg"
                 alt="create profile"
                 fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 66vw"
                 className="object-cover rounded-2xl lg:rounded-l-none"
               />
             </div>
 
             {/* register as tutor block */}
             <div className="w-full lg:basis-2/4 form-block">
-              <h2 className="font-semibold ">Хочете стати репетитором?</h2>
+              <h2 className="font-semibold">Хочете стати репетитором?</h2>
+
               <p className="text-center lg:max-w-2/3">
                 Заповніть форму і почніть свій шлях менторства за лічені
                 хвилини.
               </p>
+
               <MainButton
                 className="w-full"
                 secondaryStyle={true}
-                href="/register"
+                href="/register?initialRole=teacher"
               >
                 Створити профіль
               </MainButton>
@@ -129,7 +136,7 @@ export default function Home() {
             <MainButton
               className="w-full md:w-1/2 lg:w-1/4"
               secondaryStyle={true}
-              href="/register"
+              href="/register?initialRole=student"
             >
               Почати навчання
             </MainButton>

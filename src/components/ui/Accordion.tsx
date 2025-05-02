@@ -45,8 +45,8 @@ function Accordion() {
     }`
 
   const accordionHeaderStyle =
-    'cursor-pointer p-0 focus:outline-none focus:ring-0'
-  const accordionBodyStyle = 'pt-4 pb-0 text-base'
+    'cursor-pointer p-0 focus:outline-none focus:ring-0 border-none'
+  const accordionBodyStyle = 'pt-4 pb-0 text-base text-white'
 
   return (
     <div className="space-y-4">

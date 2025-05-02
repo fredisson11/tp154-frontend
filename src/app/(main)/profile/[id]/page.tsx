@@ -1,10 +1,14 @@
-async function Profile({ params }: { params: { id: string } }) {
+import TeacherProfile from '@/components/Teacher/TeacherProfile'
+
+async function Profile({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
 
   return (
-    <div className="container mx-auto flex h-screen items-center justify-center">
-      <h1 className="text-center">Profile id: {id}</h1>
-    </div>
+    <section className="section-container card-container">
+      <h3 className="absolute top-30 left-10">Profile {id}</h3>
+
+      <TeacherProfile />
+    </section>
   )
 }
 

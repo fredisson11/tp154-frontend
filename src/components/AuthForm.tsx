@@ -3,19 +3,28 @@
 import MainButton from '@/components/ui/MainButton'
 import Logo from '@/components/ui/Logo'
 import Link from 'next/link'
+import { useState } from 'react'
 
 type AuthFormProps = {
   isRegister?: boolean
+  initialRole?: 'teacher' | 'student'
 }
 
-function AuthForm({ isRegister = false }: AuthFormProps) {
+function AuthForm({
+  isRegister = false,
+  initialRole = 'student',
+}: AuthFormProps) {
+  const [role, setRole] = useState(initialRole)
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const email = formData.get('email') as string
+    const password = formData.get('password') as string
 
-    // Тут логіка обробки реєстрації:
-    // Наприклад, відправити дані на бекенд або показати помилки
+    if (!email || !password) return alert('Усі поля обов’язкові!')
 
-    console.log('Форма відправлена')
+    console.log({ email, password, role })
   }
 
   return (
@@ -42,8 +51,11 @@ function AuthForm({ isRegister = false }: AuthFormProps) {
           onSubmit={handleSubmit}
           className="h-full flex flex-col gap-8 form-block"
         >
+          {/* form title */}
           <h2 className="text-3xl lg:text-4xl">
-            {isRegister ? 'Реєстрація' : 'Вхід в акаунт'}
+            {isRegister
+              ? `Реєстрація ${role === 'teacher' ? 'вчителя' : 'учня'}`
+              : 'Вхід в акаунт'}
           </h2>
 
           {isRegister && (
@@ -52,8 +64,10 @@ function AuthForm({ isRegister = false }: AuthFormProps) {
                 <input
                   type="radio"
                   name="role"
-                  value="teacher"
+                  value="student"
                   className="w-5 h-5"
+                  checked={role === 'student'}
+                  onChange={() => setRole('student')}
                 />
                 Реєструюсь як учень
               </label>
@@ -62,8 +76,10 @@ function AuthForm({ isRegister = false }: AuthFormProps) {
                 <input
                   type="radio"
                   name="role"
-                  value="student"
+                  value="teacher"
                   className="w-5 h-5"
+                  checked={role === 'teacher'}
+                  onChange={() => setRole('teacher')}
                 />
                 Реєструюсь як вчитель
               </label>

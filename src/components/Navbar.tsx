@@ -7,10 +7,12 @@ import Logo from '@/components/ui/Logo'
 import classNames from 'classnames'
 import NavLinks from '@/components/ui/NavLinks'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolling, setIsScrolling] = useState(false)
+  const pathname = usePathname()
 
   // handle scroll
   useEffect(() => {
@@ -54,8 +56,10 @@ function Navbar() {
               })}
             />
 
-            {/* navigation */}
-            {!isOpen && <NavLinks className="hidden lg:block space-x-4" />}
+            {/* navigation if home page */}
+            {pathname === '/' && !isOpen && (
+              <NavLinks className="hidden lg:block space-x-4" />
+            )}
 
             {/* buttons */}
             <div className="flex items-center justify-between gap-15">
@@ -65,14 +69,20 @@ function Navbar() {
                 </MainButton>
               </div>
 
-              <button onClick={() => setIsOpen(!isOpen)} className="lg:hidden">
-                <Image
-                  src={isOpen ? '/close-icon.svg' : '/hamb-icon.svg'}
-                  alt="menu"
-                  width={44}
-                  height={44}
-                />
-              </button>
+              {/* hamburger if home page */}
+              {pathname === '/' && (
+                <button
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="lg:hidden"
+                >
+                  <Image
+                    src={isOpen ? '/close-icon.svg' : '/hamb-icon.svg'}
+                    alt="menu"
+                    width={44}
+                    height={44}
+                  />
+                </button>
+              )}
             </div>
           </div>
 

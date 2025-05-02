@@ -222,7 +222,7 @@ function Carousel() {
                 priority={index < 10}
               />
               <div className="text-center">
-                <h3 className="font-medium">
+                <h3 className="text-base">
                   {profile.name}, {profile.age}
                 </h3>
                 <span className="text-gray-400 text-sm">{profile.subject}</span>

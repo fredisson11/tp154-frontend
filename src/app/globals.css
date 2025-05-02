@@ -46,7 +46,7 @@
   }
 
   h3 {
-    @apply font-bold text-sm;
+    @apply font-bold text-xl;
   }
 
   p {
@@ -91,6 +91,10 @@
 @layer utilities {
   .section-container {
     @apply max-w-[1440px] container mx-auto py-15 px-5;
+  }
+
+  .card-container {
+    @apply bg-white shadow-md rounded-3xl flex flex-col;
   }
 
   .container-fluid {
