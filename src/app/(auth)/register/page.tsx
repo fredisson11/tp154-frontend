@@ -1,8 +1,9 @@
 import AuthForm from '@/components/AuthForm'
+import { Role } from '@/store/useAuthStore'
 
 type RegisterPageProps = {
   searchParams: Promise<{
-    initialRole?: 'teacher' | 'student'
+    initialRole?: Role
   }>
 }
 

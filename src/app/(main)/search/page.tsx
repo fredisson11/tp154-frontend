@@ -1,6 +1,7 @@
 import SearchComponent from '@/components/ui/SearchComponent'
 import TeacherCard from '@/components/Teacher/TeacherCard'
 import SortDropdown from '@/components/ui/SortDropdown'
+import NavigateButton from '@/components/ui/NavigateButton'
 
 function SearchPage() {
   const mockTeachers = [
@@ -39,8 +40,15 @@ function SearchPage() {
 
   return (
     <>
+      <NavigateButton showHome={true} className="md:hidden" />
+
       {/* title + description */}
-      <section className="section-container flex justify-center">
+      <section className="section-container flex justify-center relative">
+        <NavigateButton
+          showHome={true}
+          className="hidden md:flex absolute left-0"
+        />
+
         <div className="md:w-1/2 space-y-10">
           <h1>Наші репетитори</h1>
 

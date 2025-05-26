@@ -1,4 +1,5 @@
 'use client'
+import Image from 'next/image'
 import { useRouter, usePathname } from 'next/navigation'
 
 function Logo({ className }: { className?: string }) {
@@ -25,11 +26,8 @@ function Logo({ className }: { className?: string }) {
 
   return (
     <h1 className={`flex items-center space-x-2 ${className}`}>
-      <button
-        onClick={handleClick}
-        className="text-5xl font-normal w-full cursor-pointer"
-      >
-        Astra+
+      <button onClick={handleClick} className="w-full cursor-pointer">
+        <Image src="/logo.svg" alt="Astra+" width={150} height={60} />
       </button>
     </h1>
   )

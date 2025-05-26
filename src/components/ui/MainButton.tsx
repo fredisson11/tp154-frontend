@@ -9,6 +9,7 @@ type ButtonOrLinkProps =
       children: React.ReactNode
       className?: string
       secondaryStyle?: boolean
+      disabled?: never
     }
   | {
       href?: never
@@ -17,6 +18,7 @@ type ButtonOrLinkProps =
       children: React.ReactNode
       className?: string
       secondaryStyle?: boolean
+      disabled?: boolean
     }
 
 export default function MainButton(props: ButtonOrLinkProps) {
@@ -33,7 +35,9 @@ export default function MainButton(props: ButtonOrLinkProps) {
     'justify-center',
     'items-center',
     'min-w-[180px]',
-    props.secondaryStyle ? 'secondary-button' : 'primary-button'
+    'outline-0',
+    props.secondaryStyle ? 'secondary-button' : 'primary-button',
+    props.disabled ? 'opacity-50 cursor-not-allowed' : ''
   )
 
   if (props.href) {
@@ -52,6 +56,7 @@ export default function MainButton(props: ButtonOrLinkProps) {
       onClick={props.onClick}
       type={props.type}
       className={classNames(baseClasses, props.className)}
+      disabled={props.disabled}
     >
       <span className="px-3">{props.children}</span>
     </button>

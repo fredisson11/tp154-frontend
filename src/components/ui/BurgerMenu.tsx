@@ -6,10 +6,11 @@ import NavLinks from '@/components/ui/NavLinks'
 
 interface BurgerMenuProps {
   isOpen: boolean
+  isMainPage: boolean
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-function BurgerMenu({ isOpen, setIsOpen }: BurgerMenuProps) {
+function BurgerMenu({ isOpen, setIsOpen, isMainPage }: BurgerMenuProps) {
   // disable scroll when menu is open
   useEffect(() => {
     if (isOpen) {
@@ -41,7 +42,7 @@ function BurgerMenu({ isOpen, setIsOpen }: BurgerMenuProps) {
         )}
       >
         {/* links */}
-        {isOpen && (
+        {isOpen && isMainPage && (
           <div className="w-full" onClick={() => setIsOpen(!isOpen)}>
             <NavLinks className="flex flex-col items-center pt-[12%] md:pt-0 space-y-20 text-xl w-full text-white" />
           </div>

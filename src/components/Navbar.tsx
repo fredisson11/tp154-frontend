@@ -8,26 +8,66 @@ import classNames from 'classnames'
 import NavLinks from '@/components/ui/NavLinks'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { useAuthStore } from '@/store/useAuthStore'
+import Link from 'next/link'
+import UserAvatar from '@/components/ui/UserAvatar'
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolling, setIsScrolling] = useState(false)
   const pathname = usePathname()
 
-  // handle scroll
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const isHydrated = useAuthStore((state) => state.isHydrated)
+  const userData = useAuthStore((state) => state.user)
+
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolling(window.scrollY > 0)
-    }
-
+    const handleScroll = () => setIsScrolling(window.scrollY > 0)
     window.addEventListener('scroll', handleScroll)
-
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  if (!isHydrated) return null
+
+  const renderAuthButton = () => {
+    if (!isAuthenticated) {
+      return (
+        <MainButton
+          className={classNames('ml-auto w-10 md:w-auto h-12 md:h-auto', {
+            'hidden md:flex': pathname === '/' && !isOpen,
+            'w-full mr-auto': isOpen,
+          })}
+          href="/login"
+        >
+          Увійти в акаунт
+        </MainButton>
+      )
+    }
+
+    return (
+      <Link href={`/${userData?.role}`}>
+        <UserAvatar
+          photo={userData?.photo}
+          className={classNames({
+            'w-12 h-12 lg:block hidden': !isOpen,
+            'w-20 h-20 text-white mb-4': isOpen,
+          })}
+          spanClassName={classNames({
+            'hidden lg:block': !isOpen,
+            'text-white': isOpen,
+          })}
+        />
+      </Link>
+    )
+  }
+
   return (
     <>
-      <BurgerMenu setIsOpen={setIsOpen} isOpen={isOpen} />
+      <BurgerMenu
+        isMainPage={pathname === '/'}
+        setIsOpen={setIsOpen}
+        isOpen={isOpen}
+      />
 
       <header
         className={classNames(
@@ -37,60 +77,44 @@ function Navbar() {
           }
         )}
       >
-        {/* container */}
         <div
           className={classNames(
-            'container md:mx-auto px-5 py-4',
+            'container mx-auto px-5 py-2 md:py-4',
             'flex flex-col items-center justify-between gap-4',
-
-            {
-              'border-b-2 border-zinc-600': isOpen,
-            }
+            { 'border-b-2 border-zinc-600': isOpen }
           )}
         >
           <div className="flex w-full items-center justify-between">
-            {/* logo */}
-            <Logo
-              className={classNames({
-                'text-white': isOpen,
-              })}
-            />
+            <div className="flex-1">
+              <Logo className={classNames({ 'text-white': isOpen })} />
+            </div>
 
-            {/* navigation if home page */}
-            {pathname === '/' && !isOpen && (
-              <NavLinks className="hidden lg:block space-x-4" />
-            )}
-
-            {/* buttons */}
-            <div className="flex items-center justify-between gap-15">
-              <div className="hidden md:block">
-                <MainButton className="px-10	" href="/login">
-                  Увійти в акаунт
-                </MainButton>
-              </div>
-
-              {/* hamburger if home page */}
-              {pathname === '/' && (
-                <button
-                  onClick={() => setIsOpen(!isOpen)}
-                  className="lg:hidden"
-                >
-                  <Image
-                    src={isOpen ? '/close-icon.svg' : '/hamb-icon.svg'}
-                    alt="menu"
-                    width={44}
-                    height={44}
-                  />
-                </button>
+            <div className="hidden lg:flex justify-center flex-1">
+              {pathname === '/' && !isOpen && (
+                <NavLinks className="space-x-4 whitespace-nowrap" />
               )}
+            </div>
+
+            <div className="flex items-center justify-end gap-4 flex-1">
+              {!isOpen && renderAuthButton()}
+
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="lg:hidden"
+                aria-label={isOpen ? 'Close menu' : 'Open menu'}
+              >
+                <Image
+                  src={isOpen ? '/close-icon.svg' : '/hamb-icon.svg'}
+                  alt="menu"
+                  width={44}
+                  height={44}
+                  priority
+                />
+              </button>
             </div>
           </div>
 
-          {isOpen && (
-            <MainButton className="md:hidden w-full" href="/login">
-              Увійти в акаунт
-            </MainButton>
-          )}
+          {isOpen && renderAuthButton()}
         </div>
       </header>
     </>

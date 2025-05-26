@@ -16,14 +16,14 @@ const ContactComponent = ({ className }: ContactComponentProps) => {
       <div>
         <p className="text-gray-500 lg:text-base">Показати номер:</p>
 
-        <button className="mx-auto md:mx-0 underline text-xl lg:text-base flex items-center gap-2">
+        <button className="mx-auto md:mx-0 underline text-xl lg:text-base flex items-center gap-2 ">
           {showNumber ? `${phoneNumber}` : '**********'}
 
           <Image
             onClick={() => setShowNumber(!showNumber)}
-            src="/eye-open-icon.svg"
-            alt="open eye"
-            className="w-8 h-8"
+            src={showNumber ? '/eye-closed-icon.svg' : '/eye-open-icon.svg'}
+            alt={showNumber ? 'open eye' : 'closed eye'}
+            className="w-8 h-8 cursor-pointer"
             width={32}
             height={32}
           />

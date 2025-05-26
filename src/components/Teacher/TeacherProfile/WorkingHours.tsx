@@ -12,7 +12,7 @@ const WorkingHours = ({ className }: { className?: string }) => {
   ]
 
   return (
-    <div className={classNames('text-lg lg:text-base	', className)}>
+    <div className={classNames('text-lg lg:text-base', className)}>
       <p className="mb-2 text-gray-500">Години роботи:</p>
 
       <ul className="list-none space-y-1">
@@ -22,11 +22,12 @@ const WorkingHours = ({ className }: { className?: string }) => {
             {hours.includes('Вихідний') ? (
               <span>{hours}</span>
             ) : (
-              <span>
-                <span className="text-gray-500">з</span> {hours.split(' - ')[0]}{' '}
-                <span className="text-gray-500 pl-4">до</span>{' '}
+              <div className="flex">
+                <span className="text-gray-500">з&nbsp;</span>{' '}
+                {hours.split(' - ')[0]}{' '}
+                <span className="text-gray-500 pl-6">до&nbsp;</span>{' '}
                 {hours.split(' - ')[1]}
-              </span>
+              </div>
             )}
           </li>
         ))}

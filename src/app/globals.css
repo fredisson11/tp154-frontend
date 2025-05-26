@@ -6,6 +6,7 @@
   --color-main-dark: #282626;
   --color-background: #fbf7f7;
   --color-main-gray: #cbcbcb;
+  --color-dashboard-subject: #fffeb3;
   --font-nunito: 'Nunito', sans-serif;
 }
 
@@ -35,6 +36,7 @@
     background-color: var(--color-background);
     color: var(--color-main-dark);
     font-family: var(--font-nunito);
+    outline: none;
   }
 
   h1 {
@@ -47,6 +49,10 @@
 
   h3 {
     @apply font-bold text-xl;
+  }
+
+  h4 {
+    @apply text-lg font-normal;
   }
 
   p {
@@ -71,7 +77,7 @@
 
   .secondary-button {
     @apply bg-secondary text-main-dark min-h-[72px]
-           hover:bg-main-gray hover:shadow-[4px_4px_0_0_var(--color-main-dark)] cursor-pointer
+           hover:bg-white hover:shadow-[4px_4px_0_0_var(--color-main-dark)] cursor-pointer
            border border-transparent hover:border-main-dark;
   }
 
@@ -80,11 +86,69 @@
   }
 
   .form-input {
-    @apply border-2 rounded-xl px-6 py-4 w-full h-[72px] text-xl;
+    @apply border-2 border-white rounded-xl px-6 py-4 w-full min-h-[72px] text-xl outline-0;
+  }
+
+  .form-radio {
+    @apply cursor-pointer w-5 h-5 rounded-full appearance-none border-2 border-gray-300 checked:border-white checked:bg-blue-500;
+    flex-shrink: 0;
   }
 
   .form-label {
-    @apply absolute top-0 left-3 -translate-y-1/2 bg-primary text-gray-300 px-1 flex items-center gap-1;
+    @apply z-10 absolute top-0 left-3 -translate-y-1/2 bg-primary text-white px-1 flex items-center gap-1;
+  }
+
+  .form-checkbox-block {
+    @apply rounded-xl py-4 w-full text-xl;
+  }
+
+  .form-checkbox {
+    @apply cursor-pointer w-5 h-5 rounded-full appearance-none border-2 border-gray-300;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  .form-checkbox:checked {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
+    background-size: 75% 75%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .form-select {
+    @apply relative w-full;
+  }
+
+  .form-select select {
+    @apply border-2 border-white rounded-xl px-6 py-4 w-full min-h-[72px] text-xl pr-10 appearance-none outline-0 cursor-pointer;
+    background-image: url("data:image/svg+xml,%3Csvg width='16' height='10' viewBox='0 0 16 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L8 8L15 1' stroke='white' stroke-width='2'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 16px 10px;
+  }
+
+  .form-select select[multiple] {
+    @apply h-auto bg-none;
+    background-image: none;
+  }
+
+  .form-select select option {
+    @apply bg-primary text-white;
+  }
+
+  .form-select select option:checked {
+    @apply bg-secondary text-main-dark;
+  }
+
+  .link {
+    @apply outline-0 underline underline-offset-4 text-primary hover:text-blue-700 cursor-pointer;
+  }
+
+  .dashboard-subject {
+    @apply bg-dashboard-subject px-3 py-1.5 rounded-sm text-center;
+  }
+
+  .dashboard-input {
+    @apply py-2 border-b border-gray-400;
   }
 }
 
@@ -101,8 +165,24 @@
     @apply py-12;
   }
 
+  .dashboard-container {
+    @apply max-w-[1440px] container mx-auto p-5 md:p-10;
+  }
+
+  .dashboard-block {
+    @apply bg-white rounded-sm shadow-md/3;
+  }
+
   /* needs for distance between section and header */
   .margin-top {
-    @apply lg:gap-5 mt-[100px] lg:mt-[150px];
+    @apply mt-[100px] lg:mt-[150px];
+  }
+
+  .profile-modal {
+    @apply bg-white shadow-md rounded-3xl flex flex-col;
+  }
+
+  .dashboard-modal {
+    @apply bg-white shadow-sm rounded-sm w-[90%] md:w-1/2 p-10;
   }
 }

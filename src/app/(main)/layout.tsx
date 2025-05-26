@@ -9,9 +9,7 @@ export default function MainLayout({
   return (
     <div className="margin-top">
       <Navbar />
-
       {children}
-
       <Footer />
     </div>
   )
