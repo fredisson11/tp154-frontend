@@ -1,12 +1,12 @@
 import { TeacherProfileData } from '@/utils/schemas/authSchemas'
-import { FieldErrors, UseFormRegister } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 
-interface StepThreeProps {
-  register: UseFormRegister<TeacherProfileData>
-  errors: FieldErrors<TeacherProfileData>
-}
+function StepThree() {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<TeacherProfileData>()
 
-function StepThree({ register, errors }: StepThreeProps) {
   return (
     <section aria-labelledby="step-three-title">
       <div className="space-y-6">
@@ -26,11 +26,7 @@ function StepThree({ register, errors }: StepThreeProps) {
           />
 
           {errors.education && (
-            <p
-              id="education-error"
-              className="text-red-500 text-sm"
-              role="alert"
-            >
+            <p id="education-error" className="text-error text-sm" role="alert">
               {errors.education.message}
             </p>
           )}
@@ -54,7 +50,7 @@ function StepThree({ register, errors }: StepThreeProps) {
           {errors.lesson_flow && (
             <p
               id="lesson-flow-error"
-              className="text-red-500 text-sm"
+              className="text-error text-sm"
               role="alert"
             >
               {errors.lesson_flow.message}

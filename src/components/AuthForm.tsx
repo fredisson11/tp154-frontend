@@ -194,9 +194,10 @@ function AuthForm({
               </div>
             )}
 
+            {/* Email */}
             <div className="w-full relative">
               <label className="form-label" htmlFor="email">
-                Пошта<span className="text-red-500">*</span>
+                Пошта<span className="text-error">*</span>
               </label>
 
               <input
@@ -210,9 +211,10 @@ function AuthForm({
               />
             </div>
 
+            {/* Password */}
             <div className="w-full relative">
               <label className="form-label" htmlFor="password">
-                Пароль<span className="text-red-500">*</span>
+                Пароль<span className="text-error">*</span>
               </label>
 
               <input
@@ -239,10 +241,7 @@ function AuthForm({
             </div>
 
             {formError && (
-              <p
-                role="alert"
-                className="text-white px-4 ring-[1.5px] ring-red-500 rounded-md"
-              >
+              <p role="alert" className="form-alert">
                 {formError}
               </p>
             )}
@@ -262,7 +261,7 @@ function AuthForm({
                   Створюючи обліковий запис, ви приймаєте{' '}
                   <Link
                     href="/terms"
-                    className="underline-offset-4 underline"
+                    className="underline-offset-2 underline"
                     aria-label="Умови використання Astra+"
                   >
                     Умови використання
@@ -274,13 +273,25 @@ function AuthForm({
 
             <p className="py-2 text-center">
               {isRegister ? 'У Вас вже є акаунт? ' : 'Ще не маєте акаунт? '}
+
               <Link
                 href={isRegister ? '/login' : '/register'}
-                className="underline-offset-4 underline"
+                className="underline-offset-2 underline"
               >
                 {isRegister ? 'Увійти' : 'Зареєструватися'}
               </Link>
             </p>
+
+            {!isRegister && (
+              <p>
+                <Link
+                  href="/password-reset"
+                  className="underline-offset-2 underline "
+                >
+                  Забули пароль?
+                </Link>
+              </p>
+            )}
           </form>
         )}
       </div>

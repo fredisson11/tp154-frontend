@@ -40,6 +40,7 @@ export default function ActivateClient({ token }: Props) {
 
       if (role === 'teacher') {
         sessionStorage.setItem('teacherToken', data.access_token)
+        sessionStorage.setItem('teacherRefreshToken', data.refresh_token)
 
         router.push('/teacher-complete')
 
@@ -117,7 +118,7 @@ export default function ActivateClient({ token }: Props) {
           Вас буде перенаправлено...
         </span>
 
-        <Spinner className="h-8 w-8 text-white/70" />
+        <Spinner className="h-8 w-8 text-white/70 animate-spin" />
       </p>
     </section>
   )

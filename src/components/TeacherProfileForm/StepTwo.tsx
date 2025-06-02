@@ -1,12 +1,12 @@
-import { FieldErrors, UseFormRegister } from 'react-hook-form'
 import { TeacherProfileData } from '@/utils/schemas/authSchemas'
+import { useFormContext } from 'react-hook-form'
 
-interface StepTwoProps {
-  register: UseFormRegister<TeacherProfileData>
-  errors: FieldErrors<TeacherProfileData>
-}
+function StepTwo() {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<TeacherProfileData>()
 
-function StepTwo({ register, errors }: StepTwoProps) {
   return (
     <section className="w-full space-y-10">
       <div className="relative">
@@ -21,7 +21,7 @@ function StepTwo({ register, errors }: StepTwoProps) {
           aria-describedby="aboutMeHelp"
         />
         {errors.about_me && (
-          <p id="aboutMeHelp" className="text-red-500 text-sm">
+          <p id="aboutMeHelp" className="text-error text-sm">
             {errors.about_me.message}
           </p>
         )}
@@ -40,7 +40,7 @@ function StepTwo({ register, errors }: StepTwoProps) {
           aria-describedby="hobbiesHelp"
         />
         {errors.hobbies && (
-          <p id="hobbiesHelp" className="text-red-500 text-sm">
+          <p id="hobbiesHelp" className="text-error text-sm">
             {errors.hobbies.message}
           </p>
         )}

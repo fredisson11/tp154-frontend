@@ -1,34 +1,36 @@
 'use client'
 
-import { UseFormRegister, FieldErrors } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { TeacherProfileData } from '@/utils/schemas/authSchemas'
 import FormSelect from '@/components/TeacherProfileForm/FormSelect'
 import FormCheckbox from '@/components/TeacherProfileForm/FormCheckbox'
+import { Category, City, Language } from '@/types/index'
+import classNames from 'classnames'
 
 interface StepOneProps {
-  register: UseFormRegister<TeacherProfileData>
-  errors: FieldErrors<TeacherProfileData>
-  cities: { id: number; name: string }[]
-  languages: { id: number; name: string }[]
-  categories: { id: number; name: string; name_display: string }[]
+  cities: City[]
+  languages: Language[]
+  categories: Category[]
 }
 
-function StepOne({
-  register,
-  errors,
-  cities,
-  languages,
-  categories,
-}: StepOneProps) {
+function StepOne({ cities, languages, categories }: StepOneProps) {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<TeacherProfileData>()
+
   return (
     <div className="grid md:grid-cols-2 gap-4">
       {/* First Name */}
       <div className="relative">
         <label className="form-label" htmlFor="first_name">
-          Ім&apos;я<span className="text-red-500">*</span>
+          Ім&apos;я<span className="text-error">*</span>
         </label>
+
         <input
-          className="form-input w-full"
+          className={classNames('form-input w-full', {
+            'border-error': errors.first_name,
+          })}
           {...register('first_name')}
           placeholder="Ім'я"
           aria-invalid={!!errors.first_name}
@@ -37,20 +39,20 @@ function StepOne({
           spellCheck="false"
         />
         {errors.first_name && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.first_name.message}
-          </p>
+          <p className="text-error text-sm mt-1">{errors.first_name.message}</p>
         )}
       </div>
 
       {/* Last Name */}
       <div className="relative">
         <label className="form-label" htmlFor="last_name">
-          Прізвище<span className="text-red-500">*</span>
+          Прізвище<span className="text-error">*</span>
         </label>
 
         <input
-          className="form-input w-full"
+          className={classNames('form-input w-full', {
+            'border-error': errors.first_name,
+          })}
           {...register('last_name')}
           placeholder="Прізвище"
           aria-invalid={!!errors.last_name}
@@ -59,30 +61,32 @@ function StepOne({
           spellCheck="false"
         />
         {errors.last_name && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.last_name.message}
-          </p>
+          <p className="text-error text-sm mt-1">{errors.last_name.message}</p>
         )}
       </div>
 
       {/* Age */}
       <div className="relative">
         <label className="form-label" htmlFor="age">
-          Вік
+          Вік<span className="text-error">*</span>
         </label>
 
         <input
-          className="form-input w-full"
+          className={classNames('form-input w-full', {
+            'border-error': errors.age,
+          })}
           type="number"
-          {...register('age', { min: 1 })}
+          {...register('age', {
+            min: 1,
+          })}
           placeholder="Вік"
           aria-invalid={!!errors.age}
           inputMode="numeric"
-          pattern="[0-9]*"
+          required
         />
 
         {errors.age && (
-          <p className="text-red-500 text-sm mt-1">{errors.age.message}</p>
+          <p className="text-error text-sm mt-1">{errors.age.message}</p>
         )}
       </div>
 
@@ -90,13 +94,14 @@ function StepOne({
       <FormSelect
         label="Місто"
         options={cities.map((city) => ({
-          value: city.name,
+          value: city.id.toString(),
           label: city.name,
         }))}
         placeholder="Виберіть місто"
         {...register('city')}
         error={errors.city?.message}
         className="col-span-1 md:col-span-2"
+        required
       />
 
       {/* Teaching Experience */}
@@ -108,31 +113,26 @@ function StepOne({
         <input
           className="form-input w-full"
           type="number"
-          {...register('teaching_experience')}
+          {...register('teaching_experience', {
+            setValueAs: (value) => (value === '' ? null : value),
+          })}
           placeholder="Наприклад: 3"
           aria-invalid={!!errors.teaching_experience}
           inputMode="numeric"
-          pattern="[0-9]*"
         />
 
         {errors.teaching_experience && (
-          <p className="text-red-500 text-sm mt-1">
+          <p className="text-error text-sm mt-1">
             {errors.teaching_experience.message}
           </p>
         )}
       </div>
 
-      {/* Categories Select */}
-      <FormSelect
-        label="Класи викладання"
-        options={categories.map((cat) => ({
-          value: cat.name,
-          label: cat.name_display,
-        }))}
-        placeholder="Оберіть клас"
-        {...register('categories')}
-        error={errors.categories?.message}
-        className="col-span-1 md:col-span-2"
+      {/* Categories Checkboxes */}
+      <FormCheckbox
+        name="categories"
+        items={categories}
+        title="Класи викладання:"
         required
       />
 
@@ -140,8 +140,6 @@ function StepOne({
       <FormCheckbox
         name="languages"
         items={languages}
-        register={register}
-        errors={errors}
         title="Оберіть мови, якими ви володієте:"
         required
       />

@@ -7,6 +7,7 @@
   --color-background: #fbf7f7;
   --color-main-gray: #cbcbcb;
   --color-dashboard-subject: #fffeb3;
+  --color-error: #f44336;
   --font-nunito: 'Nunito', sans-serif;
 }
 
@@ -26,6 +27,11 @@
     border-color: white !important;
     box-shadow: none !important;
     outline: none !important;
+  }
+
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    appearance: none;
   }
 
   html {
@@ -85,6 +91,10 @@
     @apply bg-primary text-white flex flex-col items-center justify-between gap-5 lg:gap-10 p-10 rounded-3xl;
   }
 
+  .form-alert {
+    @apply text-white px-4 ring-[1.5px] ring-error rounded-md;
+  }
+
   .form-input {
     @apply border-2 border-white rounded-xl px-6 py-4 w-full min-h-[72px] text-xl outline-0;
   }
@@ -103,7 +113,7 @@
   }
 
   .form-checkbox {
-    @apply cursor-pointer w-5 h-5 rounded-full appearance-none border-2 border-gray-300;
+    @apply cursor-pointer w-5 h-5 rounded-full appearance-none border-2 border-white;
     transition: all 0.2s ease;
     flex-shrink: 0;
   }

@@ -1,58 +1,43 @@
 import { TeacherProfileData } from '@/utils/schemas/authSchemas'
-import { FieldErrors, UseFormRegister } from 'react-hook-form'
 import FormCheckbox from '@/components/TeacherProfileForm/FormCheckbox'
+import { Subject } from '@/types/index'
+import PhotoUploader from '../PhotoUploader'
+import { useFormContext } from 'react-hook-form'
 
 interface StepFourProps {
-  register: UseFormRegister<TeacherProfileData>
-  errors: FieldErrors<TeacherProfileData>
-  subjects: { id: string; name: string }[]
+  subjects: Subject[]
 }
 
-function StepFour({ register, errors, subjects }: StepFourProps) {
+function StepFour({ subjects }: StepFourProps) {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<TeacherProfileData>()
+
   return (
     <section aria-labelledby="step-four-title" className="w-full">
       <h2 id="step-four-title" className="sr-only">
         Контактні дані
       </h2>
 
+      {/* Form */}
       <div className="space-y-6 w-full">
         {/* photo */}
-        <div className="relative">
-          <label htmlFor="photo" className="form-label">
-            URL фото
-          </label>
-          <input
-            className="form-input block w-full"
-            {...register('photo', { required: true })}
-            placeholder="Фото"
-            aria-invalid={errors.photo ? true : false}
-            aria-describedby="photo-error"
-          />
-          {errors.photo && (
-            <p
-              id="photo-error"
-              className="text-red-500 text-sm mt-1"
-              role="alert"
-            >
-              {errors.photo.message}
-            </p>
-          )}
-        </div>
+        <PhotoUploader />
 
         {/* lesson_price */}
         <div className="relative">
           <label htmlFor="lesson_price" className="form-label">
-            Ціна уроку
+            Ціна уроку (за годину)
           </label>
 
           <input
             className="form-input block w-full"
             type="number"
             {...register('lesson_price', {
-              valueAsNumber: true,
-              required: true,
+              setValueAs: (value) => (value === '' ? null : value),
             })}
-            placeholder="Ціна"
+            placeholder="Наприклад: 250"
             aria-invalid={errors.lesson_price ? true : false}
             aria-describedby="lesson-price-error"
           />
@@ -60,7 +45,7 @@ function StepFour({ register, errors, subjects }: StepFourProps) {
           {errors.lesson_price && (
             <p
               id="lesson-price-error"
-              className="text-red-500 text-sm mt-1"
+              className="text-error text-sm mt-1"
               role="alert"
             >
               {errors.lesson_price.message}
@@ -83,7 +68,7 @@ function StepFour({ register, errors, subjects }: StepFourProps) {
           {errors.phone && (
             <p
               id="phone-error"
-              className="text-red-500 text-sm mt-1"
+              className="text-error text-sm mt-1"
               role="alert"
             >
               {errors.phone.message}
@@ -95,9 +80,7 @@ function StepFour({ register, errors, subjects }: StepFourProps) {
         <FormCheckbox
           title="Оберіть сфери надання послуг:"
           name="subjects"
-          items={subjects.map(({ id, name }) => ({ id: Number(id), name }))}
-          register={register}
-          errors={errors}
+          items={subjects}
           required
         />
 
@@ -118,7 +101,7 @@ function StepFour({ register, errors, subjects }: StepFourProps) {
             {errors.telegram && (
               <p
                 id="telegram-error"
-                className="text-red-500 text-sm mt-1"
+                className="text-error text-sm mt-1"
                 role="alert"
               >
                 {errors.telegram.message}
@@ -141,7 +124,7 @@ function StepFour({ register, errors, subjects }: StepFourProps) {
             {errors.whatsapp && (
               <p
                 id="whatsapp-error"
-                className="text-red-500 text-sm mt-1"
+                className="text-error text-sm mt-1"
                 role="alert"
               >
                 {errors.whatsapp.message}
@@ -164,7 +147,7 @@ function StepFour({ register, errors, subjects }: StepFourProps) {
             {errors.viber && (
               <p
                 id="viber-error"
-                className="text-red-500 text-sm mt-1"
+                className="text-error text-sm mt-1"
                 role="alert"
               >
                 {errors.viber.message}
@@ -187,7 +170,7 @@ function StepFour({ register, errors, subjects }: StepFourProps) {
             {errors.instagram && (
               <p
                 id="instagram-error"
-                className="text-red-500 text-sm mt-1"
+                className="text-error text-sm mt-1"
                 role="alert"
               >
                 {errors.instagram.message}

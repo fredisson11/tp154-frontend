@@ -14,16 +14,19 @@ const FormSelect = forwardRef<HTMLSelectElement, FormSelectProps>(
         {label && (
           <label className="form-label">
             {label}
-            {props.required && <span className="text-red-500">*</span>}
+
+            {props.required && <span className="text-error">*</span>}
           </label>
         )}
+
         <div className="form-select">
           <select
             ref={ref}
-            className={`${className} ${error ? 'border-red-500' : ''}`}
+            className={`${className} ${error ? 'border-error' : ''}`}
             {...props}
           >
             {placeholder && <option value="">{placeholder}</option>}
+
             {options.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -31,7 +34,8 @@ const FormSelect = forwardRef<HTMLSelectElement, FormSelectProps>(
             ))}
           </select>
         </div>
-        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+
+        {error && <p className="text-error text-sm mt-1">{error}</p>}
       </div>
     )
   }

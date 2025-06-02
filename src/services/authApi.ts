@@ -1,5 +1,5 @@
 import { Role } from '@/store/useAuthStore'
-import { TeacherProfileData } from '@/utils/schemas/authSchemas'
+import { TeacherProfileRequest } from '@/utils/schemas/authSchemas'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
@@ -124,7 +124,7 @@ export const activateUser = async (
 }
 
 export const completeTeacher = async (
-  data: TeacherProfileData,
+  data: TeacherProfileRequest,
   token: string
 ): Promise<{
   success: boolean
@@ -242,6 +242,85 @@ export const refreshUser = async (
     return {
       access: data.access,
       refresh: data.refresh,
+      success: true,
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : 'Unknown error during activation',
+    }
+  }
+}
+
+export const resetPassword = async (email: string) => {
+  try {
+    const response = await fetch(`${BASE_URL}/api/user/auth/password/reset/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      throw new Error(
+        data.email?.[0] || 'Невірні дані або серверна помилка, спробуйте ще раз'
+      )
+    }
+
+    return {
+      success: true,
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : 'Unknown error during activation',
+    }
+  }
+}
+
+export const resetPasswordConfirm = async (
+  token: string,
+  password: string,
+  confirmPassword: string
+) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/api/user/auth/password/reset/confirm/`,
+      {
+        method: 'POST',
+
+        headers: {
+          'Content-Type': 'application/json',
+        },
+
+        body: JSON.stringify({
+          token: token,
+          new_password: password,
+          new_password_confirm: confirmPassword,
+        }),
+      }
+    )
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      if (data.token) {
+        throw new Error('Невірний токен')
+      }
+
+      throw new Error('Невірні дані або серверна помилка, спробуйте ще раз')
+    }
+
+    return {
       success: true,
     }
   } catch (error) {
