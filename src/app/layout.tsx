@@ -12,6 +12,9 @@ const nunito = Nunito({
 export const metadata: Metadata = {
   title: 'Astra +',
   description: 'Astra +',
+  appleWebApp: {
+    title: 'Astra +',
+  },
 }
 
 export default function RootLayout({
